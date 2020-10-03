@@ -1,3 +1,34 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@600&family=Poppins:wght@400;500;600;700&display=swap");
+
 @tailwind base;
 @tailwind components;
+
+/* Theme Setup */
+.light-theme {
+  /* Theme Colors */
+  --bg-background-primary: white;
+  --bg-background-secondary: #f7fafc;
+  --bg-background-ternary: #e2e8f0;
+
+  /* Font */
+  --text-tc-primary: #000000;
+}
+
+.dark-theme {
+  /* Theme Colors */
+  --bg-background-primary: #1a202c;
+  --bg-background-secondary: #102c44;
+  --bg-background-ternary: #1e3951;
+
+  /* Font */
+  --text-tc-primary: white;
+}
+
+/* Custom utilities */
+.transition-all-25-ease-in{
+    transition: all .25s ease-in;
+}
+.transition-background-25-ease-in{
+    transition: background-color .25s ease-in;
+}
 @tailwind utilities;
