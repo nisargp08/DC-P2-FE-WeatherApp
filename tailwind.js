@@ -2,24 +2,37 @@ module.exports = {
   purge: [],
   theme: {
     extend: {
-      fontFamily : {
-        'poppins' : ['Poppins','sans-serif'],
-        'montserrat' : ['Montserrat','sans-serif'],
+      fontFamily: {
+        raleway: ["Raleway", "sans-serif"],
+        montserrat: ["Montserrat", "sans-serif"],
       },
-      colors : {
+      fontSize: {
+        "48px": "48px",
+        "64px": "64px",
+        "144px": "144px",
+      },
+      colors: {
         // Background Colors
-        background : {
-          primary : 'var(--bg-background-primary)',
-          secondary : 'var(--bg-background-secondary)',
-          ternary : 'var(--bg-background-ternary)',
+        background: {
+          primary: "var(--bg-background-primary)",
+          secondary: "var(--bg-background-secondary)",
+          ternary: "var(--bg-background-ternary)",
         },
         // Text colors : tc
-        tc : {
-          primary : 'var(--text-tc-primary)'
-        }
+        tc: {
+          primary: "var(--text-tc-primary)",
+          secondary: "var(--text-tc-secondary)",
+          ternary: "var(--text-tc-ternary)",
+        },
+      },
+      rotate : {
+        'n150' : '-150deg',
+      },
+      borderRadius : {
+        '80px' : '80px',
       }
     },
   },
   variants: {},
   plugins: [],
-}
+};
