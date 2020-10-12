@@ -24,6 +24,12 @@ module.exports = {
           secondary: "var(--text-tc-secondary)",
           ternary: "var(--text-tc-ternary)",
         },
+        // Boundary
+        boundary : {
+          primary : "var(--boundary-primary)",
+        },
+        //General Color
+        'light-blue' : '#3C47E9',
       },
       rotate : {
         'n150' : '-150deg',

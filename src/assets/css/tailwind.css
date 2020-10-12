@@ -24,6 +24,9 @@
   --text-tc-primary: #E7E7EB;
   --text-tc-secondary : #A09FB1;
   --text-tc-ternary : #88869D;
+
+  /* Boundary */
+  --boundary-primary : #616475;
 }
 
 /* Custom utilities */
