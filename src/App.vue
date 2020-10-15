@@ -6,23 +6,7 @@
                 <!-- Header - Search Location,Current Lcoation,Theme switch -->
                 <app-sidebar></app-sidebar>
                 <!-- Today's weather information -->
-                <div class="todays-weather relative flex-1 flex flex-col items-center justify-center my-16">
-                    <div class="w-40">
-                        <img src="@/assets/images/Shower.png" alt="">
-                    </div>
-                    <h1>
-                        <span class="text-144px font-medium">15</span>
-                        <span class="text-48px font-semibold text-tc-secondary">&deg;C</span>
-                    </h1>
-                    <h2 class="text-4xl font-semibold text-tc-secondary">Shower</h2>
-                    <p class="font-medium text-lg text-tc-ternary my-8">Today <span class="mx-4">&middot;</span> Fri, 5 Jun</p>
-                    <div class="flex items-center font-semibold text-lg text-tc-ternary">
-                        <svg class="inline" style="width:24px;height:24px" viewBox="0 0 24 24">
-                            <path fill="currentColor" d="M12 11.5A2.5 2.5 0 019.5 9 2.5 2.5 0 0112 6.5 2.5 2.5 0 0114.5 9a2.5 2.5 0 01-2.5 2.5M12 2a7 7 0 00-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 00-7-7z" />
-                        </svg>
-                        <span class="mx-2">Helsinki</span>
-                    </div>
-                </div>
+                <app-todays-card></app-todays-card>
             </div>
             <!-- Week & Highlight information -->
             <div class="bg-background-secondary">
@@ -41,67 +25,12 @@
                     </div>
                 </div>
                 <!-- Today's weather highlights - Wind,Humidity,Visibility,Air Pressure -->
-                <div class="px-5">
-                    <h3 class="font-bold text-2xl">Today's highlights </h3>
-                    <div class="">
-                        <!-- Wind Status -->
-                        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
-                            <p class="font-medium text-lg">Wind status</p>
-                            <h4>
-                                <span class="text-64px font-bold">7</span>
-                                <span class="text-4xl font-medium pl-2">mph</span>
-                            </h4>
-                            <div class="flex items-center mt-6">
-                                <svg class="inline w-8 h-8 p-2 fill-current bg-background-ternary rounded-full transform rotate-n150" viewBox="0 0 24 24">
-                                    <path fill="currentColor" d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
-                                </svg>
-                                <span class="uppercase font-medium text-sm ml-2">wsw</span>
-                            </div>
-                        </div>
-                        <!-- Humidity -->
-                        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
-                            <p class="font-medium text-lg">Humidty</p>
-                            <h4>
-                                <span class="text-64px font-bold">84</span>
-                                <span class="text-4xl font-medium pl-2">%</span>
-                            </h4>
-                            <!-- Humidity level percentage -->
-                            <div class="flex flex-col items-center w-64 mt-4 font-bold text-xs text-tc-secondary">
-                                <div class="flex items-center justify-between w-full">
-                                    <p>0</p>
-                                    <p>50</p>
-                                    <p>100</p>
-                                </div>
-                                <!-- Total Bar -->
-                                <div class="w-full h-2 bg-tc-primary rounded-80px">
-                                    <!-- Current bar -->
-                                    <div class="bg-yellow-500 h-2 rounded-80px" style="width : 80%"></div>
-                                </div>
-                                <p class="w-full text-right">%</p>
-                            </div>
-                        </div>
-                        <!-- Visibility -->
-                        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
-                            <p class="font-medium text-lg">Visibility</p>
-                            <h4>
-                                <span class="text-64px font-bold">6,4</span>
-                                <span class="text-4xl font-medium pl-2">miles</span>
-                            </h4>
-                        </div>
-                        <!-- Air Pressure -->
-                        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
-                            <p class="font-medium text-lg">Air Pressure</p>
-                            <h4>
-                                <span class="text-64px font-bold">998</span>
-                                <span class="text-4xl font-medium pl-2">mb</span>
-                            </h4>
-                        </div>
-                    </div>
-                </div>
+                <app-highlights></app-highlights>
             </div>
         </div>
         <!-- Footer -->
         <footer class="bg-background-secondary py-12 text-tc-ternary">
+            <p class="font-montserrat text-sm text-center">Weather API by <a class="text-red-500" href="https://www.metaweather.com/" target="_blank">MetaWeather</a></p>
             <p class="font-montserrat text-sm text-center">Nisarg Patel @ DevChallenges.io</p>
         </footer>
     </div>
@@ -110,15 +39,24 @@
 
 <script>
 import { mapState } from 'vuex';
+import { weatherData } from '@/mixins/weatherMixin.js';
 
 export default {
     name: 'App',
+    mixins : [weatherData],
     components: {
         'AppSidebar': () => import('@/components/Sidebar.vue'),
+        'AppTodaysCard': () => import('@/components/TodaysCard.vue'),
+        'AppHighlights': () => import('@/components/Highlights.vue'),
     },
     computed: {
         ...mapState(['currentTheme'])
-    }
+    },
+    data() {
+        return {
+        }
+    },
+    
 }
 </script>
 
