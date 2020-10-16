@@ -45,4 +45,7 @@
 .btn:focus{
   @apply outline-none
 }
+.highlight-card{
+  @apply flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg
+}
 @tailwind utilities;

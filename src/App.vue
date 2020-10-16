@@ -12,17 +12,8 @@
             <div class="bg-background-secondary">
                 <!-- Weather information for the next 7 days -->
                 <div class="flex items-center justify-center flex-wrap py-12">
-                    <!-- Day card -->
-                    <div v-for="(day,index) in 5" :key="index" class="bg-background-primary rounded-lg p-5 m-4">
-                        <p class="font-medium text-base text-center">Tomorrow</p>
-                        <div class="w-16 mx-auto">
-                            <img src="@/assets/images/Sleet.png" alt="">
-                        </div>
-                        <div class="flex items-center justify-between font-medium text-base mt-8">
-                            <span>16 &deg;C</span>
-                            <span class="text-tc-secondary ml-4">11 &deg;C</span>
-                        </div>
-                    </div>
+                    <!-- Forecast card for next 5 days -->
+                    <app-forecast-card v-for="(day,index) in forecast" :key="index" :day="day"></app-forecast-card>
                 </div>
                 <!-- Today's weather highlights - Wind,Humidity,Visibility,Air Pressure -->
                 <app-highlights></app-highlights>
@@ -47,10 +38,15 @@ export default {
     components: {
         'AppSidebar': () => import('@/components/Sidebar.vue'),
         'AppTodaysCard': () => import('@/components/TodaysCard.vue'),
+        'AppForecastCard': () => import('@/components/ForecastCard.vue'),
         'AppHighlights': () => import('@/components/Highlights.vue'),
     },
     computed: {
-        ...mapState(['currentTheme'])
+        ...mapState(['currentTheme','weather']),
+        // Return forecast Array from the weather Object
+        forecast(){
+            return this.weather.forecast;
+        }
     },
     data() {
         return {

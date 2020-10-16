@@ -3,21 +3,21 @@
     <h3 class="font-bold text-2xl">Today's highlights </h3>
     <div class="">
         <!-- Wind Status -->
-        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
+        <div class="highlight-card">
             <p class="font-medium text-lg">Wind status</p>
             <h4>
                 <span class="text-64px font-bold">{{ currentDayWeather.wind_speed | round }}</span>
                 <span class="text-4xl font-medium pl-2">mph</span>
             </h4>
-            <div class="flex items-center mt-6">
-                <svg class="inline w-8 h-8 p-2 fill-current bg-background-ternary rounded-full transform rotate-n150" viewBox="0 0 24 24">
+            <div class="flex items-center mt-4">
+                <svg class="inline w-8 h-8 p-2 fill-current bg-background-ternary rounded-full transform" :style="compassDirection(currentDayWeather.wind_direction)" viewBox="0 0 24 24">
                     <path fill="currentColor" d="M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71L12 2z" />
                 </svg>
                 <span class="uppercase font-medium text-sm ml-2">{{ currentDayWeather.wind_direction_compass }}</span>
             </div>
         </div>
         <!-- Humidity -->
-        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
+        <div class="highlight-card">
             <p class="font-medium text-lg">Humidty</p>
             <h4>
                 <span class="text-64px font-bold">{{ currentDayWeather.humidity | round }}</span>
@@ -39,7 +39,7 @@
             </div>
         </div>
         <!-- Visibility -->
-        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
+        <div class="highlight-card">
             <p class="font-medium text-lg">Visibility</p>
             <h4>
                 <span class="text-64px font-bold">{{ currentDayWeather.visibility | round }}</span>
@@ -47,7 +47,7 @@
             </h4>
         </div>
         <!-- Air Pressure -->
-        <div class="flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg">
+        <div class="highlight-card">
             <p class="font-medium text-lg">Air Pressure</p>
             <h4>
                 <span class="text-64px font-bold">{{ currentDayWeather.air_pressure | round }}</span>
@@ -73,6 +73,15 @@ export default {
             return {
                 width : Math.round(this.currentDayWeather.humidity) + "%",
             }
+        },
+    },
+    methods : {
+        // Compass direction according to wind direction
+        compassDirection(directionDeg){
+            directionDeg = Math.round(directionDeg);
+            return {
+                transform : `rotate(${directionDeg}deg)`
+            };
         }
     },
     filters : {
