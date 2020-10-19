@@ -1,7 +1,7 @@
 <template>
-<div class="bg-background-primary rounded-lg p-5 m-4">
+<div class="flex flex-col items-center bg-background-primary rounded-lg p-5 m-4">
     <p class="font-medium text-base text-center">{{ day.applicable_date | formatDate }}</p>
-    <div class="w-16 mx-auto">
+    <div class="w-16 mx-auto flex-1">
         <img :src="weatherImage(day.weather_state_name)" :alt="day.weather_state_name">
     </div>
     <div class="flex items-center justify-between font-medium text-base mt-8">
