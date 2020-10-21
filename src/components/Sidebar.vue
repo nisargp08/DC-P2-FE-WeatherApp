@@ -11,7 +11,7 @@
                 </svg>
             </button>
             <!-- Theme Switcher icons with functionality -->
-            <app-theme-switcher class="hidden"></app-theme-switcher>
+            <app-theme-switcher></app-theme-switcher>
         </div>
     </div>
     <!-- Search location input -->
