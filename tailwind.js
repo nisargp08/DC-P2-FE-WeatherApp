@@ -36,6 +36,12 @@ module.exports = {
       },
       borderRadius : {
         '80px' : '80px',
+      },
+      width : {
+        '460px' : '460px',
+      },
+      maxWidth : {
+        '460px' : '460px',
       }
     },
   },

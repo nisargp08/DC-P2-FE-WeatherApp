@@ -1,5 +1,5 @@
 <template>
-<div class="fixed inset-0 bg-background-primary h-full w-full overflow-hidden z-10">
+<div class="absolute inset-0 bg-background-primary h-full w-full overflow-hidden z-10 xl:max-w-460px">
     <div class="h-full w-full overflow-auto">
         <!-- Close icon -->
         <svg @click="close()" class="w-6 h-6 ml-auto m-4 cursor-pointer" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">

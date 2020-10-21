@@ -1,8 +1,8 @@
 <template>
 <div id="app">
     <div class="flex flex-col min-h-screen bg-background-primary h-full" :class="currentTheme">
-        <div class="flex-1 flex flex-col font-raleway text-tc-primary text-base transition-background-25-ease-in">
-            <div class="flex flex-col flex-1">
+        <div class="flex-1 flex flex-col font-raleway text-tc-primary text-base transition-background-25-ease-in xl:flex-row" :class=" loader.isError ? 'xl:flex-col' : ''">
+            <div class="relative flex flex-col flex-1 xl:flex-reset" :class=" loader.isError ? 'xl:flex-1' : 'xl:w-460px'">
                 <!-- Header - Search Location,Current Lcoation,Theme switch -->
                 <app-sidebar></app-sidebar>
                 <div class="flex flex-col justify-center flex-1">
@@ -22,9 +22,13 @@
                 </div>
             </div>
             <!-- Week & Highlight information -->
-            <div class="bg-background-secondary">
+            <div class="bg-background-secondary flex flex-col justify-center items-center" :class=" loader.isError ? '' : 'xl:flex-1'">
+                <!-- Loading animation when api is fetching data -->
+                <div v-if="loader.isLoading">
+                    <app-loader class="self-center"></app-loader>
+                </div>
                 <!-- Display when loading is finished -->
-                <template v-if="loader.isDone">
+                <div v-else-if="loader.isDone">
                     <!-- Weather information for the next 7 days -->
                     <div class="flex justify-center flex-wrap py-12">
                         <!-- Forecast card for next 5 days -->
@@ -32,14 +36,14 @@
                     </div>
                     <!-- Today's weather highlights - Wind,Humidity,Visibility,Air Pressure -->
                     <app-highlights></app-highlights>
-                </template>
+                </div>
+                <!-- Footer -->
+                <footer class="bg-background-secondary pt-12 pb-8 text-tc-ternary">
+                    <p class="font-montserrat text-sm text-center">Weather API by <a class="text-red-500" href="https://www.metaweather.com/" target="_blank">MetaWeather</a></p>
+                    <p class="font-montserrat text-sm text-center">Nisarg Patel @ DevChallenges.io</p>
+                </footer>
             </div>
         </div>
-        <!-- Footer -->
-        <footer class="bg-background-secondary py-12 text-tc-ternary">
-            <p class="font-montserrat text-sm text-center">Weather API by <a class="text-red-500" href="https://www.metaweather.com/" target="_blank">MetaWeather</a></p>
-            <p class="font-montserrat text-sm text-center">Nisarg Patel @ DevChallenges.io</p>
-        </footer>
     </div>
 </div>
 </template>
@@ -53,7 +57,7 @@ export default {
     mixins: [weatherData],
     created() {
         // this.getCurrentPosition();
-        if(!this.userCoords.Latitude || !this.userCoords.Longitude){
+        if (!this.userCoords.Latitude || !this.userCoords.Longitude) {
             this.getCurrentPosition();
         }
     },
@@ -66,7 +70,7 @@ export default {
         'AppError': () => import('@/components/Error.vue'),
     },
     computed: {
-        ...mapState(['currentTheme', 'weather', 'loader','userCoords']),
+        ...mapState(['currentTheme', 'weather', 'loader', 'userCoords']),
         // Return forecast Array from the weather Object
         forecast() {
             return this.weather.forecast;
@@ -100,5 +104,29 @@ export default {
     background-repeat: no-repeat;
     background-position-x: 50%;
     background-position-y: -20%;
+
+    @media (min-width: 1280px){
+        background-position-y: 0%;
+    }
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    background: var(--bg-background-primary); 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--bg-background-ternary); 
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555; 
 }
 </style>

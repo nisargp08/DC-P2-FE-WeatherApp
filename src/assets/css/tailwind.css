@@ -39,6 +39,11 @@
 .transition-background-25-ease-in{
     transition: background-color .25s ease-in;
 }
+@responsive{
+  .flex-reset{ 
+    flex : 0 1 auto;
+  }
+}
 .btn{
   @apply transition-all-1-ease-in
 }
@@ -46,6 +51,6 @@
   @apply outline-none
 }
 .highlight-card{
-  @apply flex flex-col items-center justify-center bg-background-primary py-5 mt-8 rounded-lg
+  @apply flex flex-col items-center justify-center bg-background-primary py-5 rounded-lg h-full
 }
 @tailwind utilities;

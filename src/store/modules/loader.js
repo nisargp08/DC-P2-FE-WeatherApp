@@ -25,6 +25,10 @@ export const loader = {
         hideIsDone(state) {
             state.isDone = false;
         },
+        // Error not present
+        hideIsError(state){
+            state.isError = false;
+        },
         //Sets the error message
         setErrorMessage(state, errMsg) {
             state.isError = true;
@@ -53,6 +57,9 @@ export const loader = {
         },
         setErrorMessage({ commit }, errMsg) {
             commit("setErrorMessage", errMsg);
+        },
+        hideIsError({ commit }) {
+            commit("hideIsError");
         },
         resetTracker({ commit }) {
             commit("resetTracker");
