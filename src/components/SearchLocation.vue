@@ -67,7 +67,13 @@ export default {
             }
         },
         // Show weather info for the select location
-        selectLocation(latt_long) {
+        async selectLocation(latt_long) {
+            // CLose sidebar
+            this.close();
+            // Reset api tracking variables
+            this.$store.dispatch('resetTracker');
+            // Start loading
+            this.$store.dispatch('startLoading');
             // Splitting lattitude and longitude
             let result = latt_long.split(",");
             // Prepare Co ordinates object
@@ -76,11 +82,13 @@ export default {
                 Longitude: result[1],
             };
             // Get the location by sending coordinates
-            this.getLocationByCoords(coords);
+            await this.getLocationByCoords(coords);
             // After getting the location we get the weather for that location
-            this.getWeatherInfoById();
-            // CLose sidebar
-            this.close();
+            await this.getWeatherInfoById();
+            // Stop loading
+            this.$store.dispatch('stopLoading');
+            // Process done
+            this.$store.dispatch('showIsDone');
         },
         // emits 'close' event to parent
         close() {
@@ -90,6 +98,15 @@ export default {
     computed: {
         // Near locations suggestion list
         ...mapState(['locations']),
+        // State actions
+        // ...mapActions([
+        //     'startLoading',
+        //     'stopLoading',
+        //     'showIsDone',
+        //     'hideIsDone',
+        //     'setErrorMessage',
+        //     'resetTracker',
+        // ]),
         // Filtered location between near locatiosn and search results
         filteredLocations() {
             if (this.searchResults <= 0) {

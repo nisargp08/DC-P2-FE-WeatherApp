@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import createPersistedState from 'vuex-persistedstate'
+import { loader } from './modules/loader';
 
 Vue.use(Vuex)
 
@@ -64,7 +65,10 @@ const store = new Vuex.Store({
         }
     },
 
-    modules: {}
+    modules: {
+        // Responsible for managing api loader for async requests
+        loader
+    }
 })
 
 export default store

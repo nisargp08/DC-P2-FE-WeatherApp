@@ -1,57 +1,62 @@
 import axios from "axios";
-import { mapState } from "vuex";
+import {
+    mapState
+} from "vuex";
 
 export const weatherData = {
     data() {
         return {
-            // //API status tracker
-            // isLoading: false,
-            // isError: false,
-            // isDone: false,
-            // // Error message storage
-            // errArray: [],
             //API URL
             apiURL: "https://www.metaweather.com/api/location",
             corsURL: "https://cors-anywhere.herokuapp.com",
         };
     },
     created() {
-        // this.getCurrentCoordinates();
+        // this.getCurrentPosition();
     },
     computed: {
         ...mapState(["userCoords"]),
     },
     methods: {
-        //Get users current co-ordinates
-        // getCurrentCoordinates() {
-        //     // Reset variables
-        //     this.resetTracker();
-        //     // Begin loading
-        //     // this.isLoading = true;
+        // Get users coordinates
+        getCurrentCoordinates(callback) {
+            if ("geolocation" in navigator) {
+                navigator.geolocation.getCurrentPosition((position) => {
+                    // Co ordinates object
+                    let coords = {
+                        Latitude: position.coords.latitude,
+                        Longitude: position.coords.longitude,
+                    };
+                    callback(coords);
+                });
+            } else {
+                // Geolocation not supported in the browser
+                this.$store.dispatch(
+                    "setErrorMessage",
+                    "Looks like you are using an outdated browser ! Please use an updated browser"
+                );
+            }
+        },
+        //Get users current position
+        async getCurrentPosition() {
+            // Reset api tracking variables
+            this.$store.dispatch("resetTracker");
+            // Start loading
+            this.$store.dispatch("startLoading");
 
-        //     if ("geolocation" in navigator) {
-        //         navigator.geolocation.getCurrentPosition((position) => {
-        //             // Co ordinates object
-        //             let coords = {
-        //                 Latitude: position.coords.latitude,
-        //                 Longitude: position.coords.longitude,
-        //             };
-        //             // Dispatch action to update user co ordinates
-        //             this.$store.dispatch("getUserCoords", coords);
-        //             this.getLocationByCoords(coords);
-        //             this.getWeatherInfoById();
-        //             //Fetching Done
-        //             // this.isDone = true;
-        //         });
-        //     } else {
-        //         // Geolocation not supported in the browser
-        //         this.setErrorMessage(
-        //             "Looks like you are using an outdated browser ! Please use an updated browser"
-        //         );
-        //     }
-        //     //Loading done
-        //     // this.isLoading = false;
-        // },
+            this.getCurrentCoordinates(async (coords) => {
+                // Dispatch action to update user co ordinates
+                this.$store.dispatch("getUserCoords", coords);
+                await this.getLocationByCoords(coords);
+                await this.getWeatherInfoById();
+                // Stop loading
+                this.$store.dispatch("stopLoading");
+                // Process done if no error
+                if (!this.$store.state.loader.isError) {
+                    this.$store.dispatch("showIsDone");
+                 }
+            });
+        },
         async getLocationByCoords(coords) {
             try {
                 let response = await axios.get(
@@ -72,7 +77,10 @@ export const weatherData = {
                 }
             } catch (err) {
                 // Error fetching data from the api
-                this.setErrorMessage("Error loading data ! Please try again later ...");
+                this.$store.dispatch(
+                    "setErrorMessage",
+                    "Error loading data ! Please try again later ..."
+                );
             }
         },
         // To get weather information of a location by 'woeid' - Where on earth id
@@ -98,7 +106,8 @@ export const weatherData = {
                 }
             } catch (err) {
                 // Error fetching data from the api
-                this.setErrorMessage(
+                this.$store.dispatch(
+                    "setErrorMessage",
                     "Error loading weather data ! Please try again later ..."
                 );
             }
@@ -117,21 +126,12 @@ export const weatherData = {
                     }
                 } catch (err) {
                     // Error fetching data from the api
-                    this.setErrorMessage(
+                    this.$store.dispatch(
+                        "setErrorMessage",
                         "Error searching location ! Please try again later ..."
                     );
                 }
             }
-        },
-        // Function to reset api tracking variables
-        resetTracker() {
-            // this.isLoading = this.isError = this.isDone = false;
-            // this.errArray = [];
-        },
-        //Sets the error message
-        setErrorMessage(errMsg) {
-            // this.isError = true;
-            this.errArray.push(errMsg);
         },
     },
 };

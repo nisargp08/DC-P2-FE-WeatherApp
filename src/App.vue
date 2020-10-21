@@ -5,17 +5,26 @@
             <div class="flex flex-col flex-1">
                 <!-- Header - Search Location,Current Lcoation,Theme switch -->
                 <app-sidebar></app-sidebar>
-                <app-loader class="flex flex-col items-center justify-center flex-1"></app-loader>
-                <!-- Display when loading is finished -->
-                <template>
-                    <!-- Today's weather information -->
-                    <app-todays-card></app-todays-card>
-                </template>
+                <div class="flex flex-col justify-center flex-1">
+                    <!-- Loading animation when api is fetching data -->
+                    <template v-if="loader.isLoading">
+                        <app-loader class="self-center"></app-loader>
+                    </template>
+                    <!-- Show error if occured -->
+                    <template v-else-if="loader.isError">
+                        <app-error></app-error>
+                    </template>
+                    <!-- Display when loading is finished -->
+                    <template v-else-if="loader.isDone">
+                        <!-- Today's weather information -->
+                        <app-todays-card></app-todays-card>
+                    </template>
+                </div>
             </div>
             <!-- Week & Highlight information -->
             <div class="bg-background-secondary">
                 <!-- Display when loading is finished -->
-                <template>
+                <template v-if="loader.isDone">
                     <!-- Weather information for the next 7 days -->
                     <div class="flex justify-center flex-wrap py-12">
                         <!-- Forecast card for next 5 days -->
@@ -43,7 +52,10 @@ export default {
     name: 'App',
     mixins: [weatherData],
     created() {
-        // this.getCurrentCoordinates();
+        // this.getCurrentPosition();
+        if(!this.userCoords.Latitude || !this.userCoords.Longitude){
+            this.getCurrentPosition();
+        }
     },
     components: {
         'AppSidebar': () => import('@/components/Sidebar.vue'),
@@ -51,10 +63,10 @@ export default {
         'AppForecastCard': () => import('@/components/ForecastCard.vue'),
         'AppHighlights': () => import('@/components/Highlights.vue'),
         'AppLoader': () => import('@/components/Loader.vue'),
-
+        'AppError': () => import('@/components/Error.vue'),
     },
     computed: {
-        ...mapState(['currentTheme', 'weather']),
+        ...mapState(['currentTheme', 'weather', 'loader','userCoords']),
         // Return forecast Array from the weather Object
         forecast() {
             return this.weather.forecast;
