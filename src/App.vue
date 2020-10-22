@@ -17,7 +17,7 @@
                     <!-- Display when loading is finished -->
                     <template v-else-if="loader.isDone && !loader.isError">
                         <!-- Today's weather information -->
-                        <app-todays-card></app-todays-card>
+                        <app-todays-card :isCelcius="isCelcius"></app-todays-card>
                     </template>
                 </div>
             </div>
@@ -28,14 +28,19 @@
                     <app-loader class="self-center"></app-loader>
                 </div>
                 <!-- Display when loading is finished -->
-                <div v-else-if="loader.isDone && !loader.isError">
+                <div v-else-if="loader.isDone && !loader.isError" class="py-12">
+                    <!-- Celcius & Fahrenheit -->
+                    <div class="flex items-center justify-end">
+                        <button :class="isCelcius ? 'bg-gray-600' : 'bg-background-ternary'" @click="isCelcius = true" class="font-bold text-lg text-tc-primary px-3 py-2 rounded-full mx-1 hover:bg-background-primary focus:outline-none">&deg;C</button>
+                        <button :class="!isCelcius ? 'bg-gray-600' : 'bg-background-ternary'" @click="isCelcius = false" class="font-bold text-lg text-tc-primary px-3 py-2 rounded-full mx-1 hover:bg-background-primary focus:outline-none">&deg;F</button>
+                    </div>
                     <!-- Weather information for the next 7 days -->
-                    <div class="flex justify-center flex-wrap py-12">
+                    <div class="flex justify-center flex-wrap">
                         <!-- Forecast card for next 5 days -->
-                        <app-forecast-card v-for="(day,index) in forecast" :key="index" :day="day"></app-forecast-card>
+                        <app-forecast-card :isCelcius="isCelcius" v-for="(day,index) in forecast" :key="index" :day="day"></app-forecast-card>
                     </div>
                     <!-- Today's weather highlights - Wind,Humidity,Visibility,Air Pressure -->
-                    <app-highlights></app-highlights>
+                    <app-highlights class="mt-20"></app-highlights>
                 </div>
                 <!-- Footer -->
                 <footer class="bg-background-secondary pt-12 pb-8 text-tc-ternary">
@@ -77,7 +82,10 @@ export default {
         }
     },
     data() {
-        return {}
+        return {
+            // Temperature type
+            isCelcius : true,
+        }
     },
 
 }

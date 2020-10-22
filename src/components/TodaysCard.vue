@@ -4,8 +4,9 @@
         <img :src="weatherImage(currentDayWeather.weather_state_name)" :alt="currentDayWeather.weather_state_name">
     </div>
     <h1>
-        <span class="text-144px font-medium">{{ currentDayWeather.the_temp | round }}</span>
-        <span class="text-48px font-semibold text-tc-secondary">&deg;C</span>
+        <!-- <span class="text-144px font-medium">{{ currentDayWeather.the_temp | round }}</span> -->
+        <span class="text-144px font-medium">{{ convertTemp | round }}</span>
+        <span class="text-48px font-semibold text-tc-secondary" v-html="tempText"></span>
     </h1>
     <h2 class="text-4xl font-semibold text-tc-secondary">{{ currentDayWeather.weather_state_name }}</h2>
     <!-- Fri, 5 Jun -->
@@ -25,6 +26,11 @@ import { helperFilters,helperMethods } from '@/mixins/helperUtils.js';
 
 export default {
     mixins : [helperFilters,helperMethods],
+    props : {
+        isCelcius : {
+            type : Boolean,
+        }
+    },
     computed: {
         ...mapState(['locations', 'weather']),
         //Unpacking current location from locations object
@@ -35,6 +41,25 @@ export default {
         currentDayWeather() {
             return this.weather.currentDay;
         },
+        // Return temperature based on selected type
+        convertTemp(){
+            //If 'isCelcius' true then convert temperature to celcius
+            if(this.isCelcius){
+                // Return temp from api as it is in celcius by default
+                return this.currentDayWeather.the_temp;
+            } else {
+                // convert temperature to fahrenheit
+                return((this.currentDayWeather.the_temp * 9/5) + 32);
+            }
+        },
+        // Return temperature type text based on selection
+        tempText(){
+            if(this.isCelcius){
+                return "&deg;C";
+            } else {
+                return "&deg;F";
+            }
+        }
     },
 }
 </script>
