@@ -6,12 +6,17 @@
 /* Theme Setup */
 .light-theme {
   /* Theme Colors */
-  --bg-background-primary: white;
-  --bg-background-secondary: #f7fafc;
+  --bg-background-primary: #a0aec0;
+  --bg-background-secondary: #cbd5e0;
   --bg-background-ternary: #e2e8f0;
 
   /* Font */
-  --text-tc-primary: #000000;
+  --text-tc-primary: #1E213A;
+  --text-tc-secondary : #100E1D;
+  --text-tc-ternary : #6E707A;
+
+  /* Boundary */
+  --boundary-primary : #1a202c;
 }
 
 .dark-theme {
