@@ -18,33 +18,37 @@ export const weatherData = {
   methods: {
     // Get users coordinates
     getCurrentCoordinates(callback) {
-      // Called if user approved of location permissions
-      const success = (position) => {
-        // Reset api tracking variables
-        this.$store.dispatch("hideIsError");
-        // Co ordinates object
-        let coords = {
-          Latitude: position.coords.latitude,
-          Longitude: position.coords.longitude,
-        };
-        callback(coords);
-      }
-      // Called if user disapproved of location permissions
-      const error = () => {
-        this.$store.dispatch(
-          "setErrorMessage",
-          "Location permission denied by the user"
-        );
-        console.log("Permission Declined");
-      };
       if ("geolocation" in navigator) {
-        navigator.geolocation.getCurrentPosition(success, error());
+        navigator.geolocation.getCurrentPosition(
+          //   Success - Permission Given
+          (position) => {
+            // Reset api tracking variables
+            this.$store.dispatch("hideIsError");
+            // Co ordinates object
+            let coords = {
+              Latitude: position.coords.latitude,
+              Longitude: position.coords.longitude,
+            };
+            callback(coords);
+          },
+          //   Error - Permission declined
+          () => {
+            this.$store.dispatch(
+              "setErrorMessage",
+              "Location permission denied by the user"
+            );
+            // Stop loading
+            this.$store.dispatch("stopLoading");
+          }
+        );
       } else {
         // Geolocation not supported in the browser
         this.$store.dispatch(
           "setErrorMessage",
           "Looks like you are using an outdated browser ! Please use an updated browser"
         );
+        // Stop loading
+        this.$store.dispatch("stopLoading");
       }
     },
     //Get users current position

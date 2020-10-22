@@ -15,7 +15,7 @@
                         <app-error></app-error>
                     </template>
                     <!-- Display when loading is finished -->
-                    <template v-else-if="loader.isDone">
+                    <template v-else-if="loader.isDone && !loader.isError">
                         <!-- Today's weather information -->
                         <app-todays-card></app-todays-card>
                     </template>
@@ -28,7 +28,7 @@
                     <app-loader class="self-center"></app-loader>
                 </div>
                 <!-- Display when loading is finished -->
-                <div v-else-if="loader.isDone">
+                <div v-else-if="loader.isDone && !loader.isError">
                     <!-- Weather information for the next 7 days -->
                     <div class="flex justify-center flex-wrap py-12">
                         <!-- Forecast card for next 5 days -->

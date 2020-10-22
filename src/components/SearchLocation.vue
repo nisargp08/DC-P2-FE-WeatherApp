@@ -22,8 +22,11 @@
             <template v-if="errMsg != ''">
                 <p class="text-center">{{ errMsg }}</p>
             </template>
+            <template v-else-if="isSearching">
+                <app-loader class="self-center"></app-loader>
+            </template>
             <!-- Locations near the selected location list or Search result list -->
-            <template v-else>
+            <template v-else-if="!isSearching">
                 <a @click="selectLocation(location.latt_long)" v-for="(location,index) in filteredLocations" :key="index" href="#" class="location flex items-center font-medium p-4 rounded-lg border border-transparent hover:border-boundary-primary">
                     <span class="flex-1">{{ location.title }}</span>
                     <span>
@@ -48,14 +51,19 @@ export default {
             searchQuery: "",
             searchResults: [],
             errMsg: "",
+            isSearching : false,
         }
     },
     mixins: [weatherData],
+    components : {
+        'AppLoader': () => import('@/components/Loader.vue'),
+    },
     methods: {
         //Search for the location from the api
         async searchLocation() {
             try {
                 this.errMsg = "";
+                this.isSearching = true;
                 let result = await this.getLocationByQuery(this.searchQuery);
                 if (result.length > 0) {
                     this.searchResults = result;
@@ -64,6 +72,8 @@ export default {
                 }
             } catch (err) {
                 console.log(err);
+            } finally {
+                this.isSearching = false;
             }
         },
         // Show weather info for the select location
@@ -98,15 +108,6 @@ export default {
     computed: {
         // Near locations suggestion list
         ...mapState(['locations']),
-        // State actions
-        // ...mapActions([
-        //     'startLoading',
-        //     'stopLoading',
-        //     'showIsDone',
-        //     'hideIsDone',
-        //     'setErrorMessage',
-        //     'resetTracker',
-        // ]),
         // Filtered location between near locatiosn and search results
         filteredLocations() {
             if (this.searchResults <= 0) {
