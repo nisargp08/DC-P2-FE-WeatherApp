@@ -6,17 +6,17 @@
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clip-rule="evenodd"></path>
         </svg>
         <!-- Search input and button -->
-        <form @submit.prevent>
+        <!-- <form @submit.prevent> -->
             <div class="flex px-4 mt-6">
                 <div class="flex flex-1 items-center border rounded-lg px-4 border-boundary-primary">
                     <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                         <path fill-rule="evenodd" d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z" clip-rule="evenodd"></path>
                     </svg>
-                    <input v-model.trim="searchQuery" class="w-full h-full bg-transparent ml-4 focus:outline-none" type="text" placeholder="Search Location">
+                    <input @keyup.enter="searchLocation()" v-model.trim="searchQuery" class="w-full h-full bg-transparent ml-4 focus:outline-none" type="text" placeholder="Search Location">
                 </div>
-                <button @click="searchLocation()" class="ml-4 py-3 px-4 bg-light-blue rounded-lg font-semibold focus:outline-none hover:bg-blue-800" :disabled="searchQuery == ''">Search</button>
+                <button type="submit" @click.prevent="searchLocation()" class="ml-4 py-3 px-4 bg-light-blue rounded-lg font-semibold focus:outline-none hover:bg-blue-800" :disabled="searchQuery == ''">Search</button>
             </div>
-        </form>
+        <!-- </form> -->
         <!-- Location Suggestion list -->
         <div class="flex flex-col px-4 mt-10">
             <template v-if="errMsg != ''">
@@ -65,7 +65,7 @@ export default {
                 this.errMsg = "";
                 this.isSearching = true;
                 let result = await this.getLocationByQuery(this.searchQuery);
-                if (result.length > 0) {
+                if (result && result.length > 0) {
                     this.searchResults = result;
                 } else {
                     this.errMsg = "No locations found !";
